@@ -10,7 +10,11 @@
     "default_icon": "icon38.png"
   },
   "background": {
-    "scripts": [ "background.js" ]
+    "scripts": [
+      "tiny-background.js",
+      "background.js"
+    ],
+    "persistent": false
   },
   "options_page": "options.html",
   "options_ui": {

@@ -1,20 +1,22 @@
-localStorage.pattern || (localStorage.pattern = '${title} ${url}');
-
-function generateText(tab) {
-  return localStorage.pattern.replace(/\${(\w+)}/g, function ($0, $1) {
-    return tab.hasOwnProperty($1) ? tab[$1] : $0;
+(function (tiny, chrome) {
+  tiny.options.data || (tiny.options.data = {
+    pattern: '${title} ${url}'
   });
-}
 
-function copyString(str) {
-  var textarea = document.createElement('textarea');
-  document.body.appendChild(textarea);
-  textarea.value = str;
-  textarea.select();
-  document.execCommand('copy');
-  textarea.remove();
-}
+  function generateText(tab) {
+    return tiny.options.get().pattern.replace(/\${(\w+)}/g, ($0, $1) => tab.hasOwnProperty($1) ? tab[$1] : $0);
+  }
 
-chrome.browserAction.onClicked.addListener(function (tab) {
-  copyString(generateText(tab));
-});
+  function copyString(str) {
+    var textarea = document.createElement('textarea');
+    document.body.appendChild(textarea);
+    textarea.value = str;
+    textarea.select();
+    document.execCommand('copy');
+    textarea.remove();
+  }
+
+  chrome.browserAction.onClicked.addListener((tab) => {
+    copyString(generateText(tab));
+  });
+}(this.tiny, this.chrome));
